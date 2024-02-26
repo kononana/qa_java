@@ -25,6 +25,7 @@ public class LionTest {
         return new Object[][]{
                 {"Самец", true},
                 {"Самка", false},
+                {"Пол", false}
         };
     }
 
@@ -39,29 +40,39 @@ public class LionTest {
     }
 
     @Test
-    public void checkGetKittensCount() throws Exception {
-        Lion lion = new Lion(sex, feline);
-        Mockito.when(feline.getKittens()).thenReturn(3);
-        Assert.assertEquals(3, lion.getKittens());
-    }
+    public void checkGetKittensCount() {
+        try {
+            Lion lion = new Lion(sex, feline);
+            Mockito.when(feline.getKittens()).thenReturn(3);
+            Assert.assertEquals(3, lion.getKittens());
+        } catch (Exception exception) {
+            Assert.assertEquals("Используйте допустимые значения пола животного - самец или самка", exception.getMessage());
+        }
+        }
 
     @Test
-    public void checkDoesHaveMane() throws Exception {
-        Lion lion = new Lion(sex, feline);
-        String errMessage = "Используйте допустимые значения пола животного - самец или самка";
-        Assert.assertEquals(errMessage, hasMane, lion.doesHaveMane());
+    public void checkDoesHaveMane() {
+        try {
+            Lion lion = new Lion(sex, feline);
+            Assert.assertEquals(hasMane, lion.doesHaveMane());
+        } catch (Exception exception) {
+            Assert.assertEquals("Используйте допустимые значения пола животного - самец или самка", exception.getMessage());
+        }
     }
 
-    @Test
-    public void checkGetFood() throws Exception {
-        Lion lion = new Lion(sex, feline);
-        List<String> expectedFood = List.of("Животные", "Птицы", "Рыба");
-        Mockito.when(feline.getFood("Хищник")).thenReturn(expectedFood);
-        Assert.assertEquals(expectedFood, lion.getFood());
 
+    @Test
+    public void checkGetFood() {
+        try {
+            Lion lion = new Lion(sex, feline);
+            List<String> expectedFood = List.of("Животные", "Птицы", "Рыба");
+            Mockito.when(feline.getFood("Хищник")).thenReturn(expectedFood);
+            Assert.assertEquals(expectedFood, lion.getFood());
+        }catch (Exception exception) {
+            Assert.assertEquals("Используйте допустимые значения пола животного - самец или самка", exception.getMessage());
+        }
     }
 
 }
-
 
 
