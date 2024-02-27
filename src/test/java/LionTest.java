@@ -24,8 +24,7 @@ public class LionTest {
     public static Object[][] getData() {
         return new Object[][]{
                 {"Самец", true},
-                {"Самка", false},
-                {"Пол", false}
+                {"Самка", false}
         };
     }
 
@@ -46,9 +45,9 @@ public class LionTest {
             Mockito.when(feline.getKittens()).thenReturn(3);
             Assert.assertEquals(3, lion.getKittens());
         } catch (Exception exception) {
-            Assert.assertEquals("Используйте допустимые значения пола животного - самец или самка", exception.getMessage());
+            Assert.fail("Неожиданное исключение: " + exception.getMessage());
         }
-        }
+    }
 
     @Test
     public void checkDoesHaveMane() {
@@ -56,11 +55,9 @@ public class LionTest {
             Lion lion = new Lion(sex, feline);
             Assert.assertEquals(hasMane, lion.doesHaveMane());
         } catch (Exception exception) {
-            Assert.assertEquals("Используйте допустимые значения пола животного - самец или самка", exception.getMessage());
+            Assert.fail("Неожиданное исключение: " + exception.getMessage());
         }
     }
-
-
     @Test
     public void checkGetFood() {
         try {
@@ -68,11 +65,17 @@ public class LionTest {
             List<String> expectedFood = List.of("Животные", "Птицы", "Рыба");
             Mockito.when(feline.getFood("Хищник")).thenReturn(expectedFood);
             Assert.assertEquals(expectedFood, lion.getFood());
-        }catch (Exception exception) {
-            Assert.assertEquals("Используйте допустимые значения пола животного - самец или самка", exception.getMessage());
+        } catch (Exception exception) {
+            Assert.fail("Непредвиденное исключение: " + exception.getMessage());
         }
     }
-
+    @Test(expected = Exception.class)
+    public void checkGetFoodException() throws Exception {
+        // Создаем льва с неправильным значением пола
+        Lion lion = new Lion("Пол", feline);
+        List<String> expectedFood = List.of("Животные", "Птицы", "Рыба");
+        Mockito.when(feline.getFood("Хищник")).thenReturn(expectedFood);
+        lion.getFood();
+    }
 }
-
 
